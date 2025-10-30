@@ -1,8 +1,20 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+
+/* Couleurs par défaut (thème clair style GitHub) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff;       /* fond principal */
+  --foreground: #24292f;       /* texte principal */
+  --primary: #0969da;          /* liens et titres */
+  --secondary: #6e7781;        /* texte secondaire */
+  --border: #e1e4e8;           /* bordures */
+  --success: #2da44e;          /* boutons "Créer" */
+  --warning: #ffab70;          /* alertes éventuelles */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
 }
 
 @theme inline {
@@ -14,7 +26,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0d1117;
     --foreground: #ededed;
   }
 }
