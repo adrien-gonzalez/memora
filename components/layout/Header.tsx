@@ -1,7 +1,8 @@
 'use client'
 
-import { logout } from "@/lib/clientAuth"
-import { useRouter } from "next/navigation"
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
+import HeaderMenu from './HeaderMenu'
 
 type HeaderProps = {
   selectedSubcategory?: string
@@ -16,17 +17,26 @@ export default function Header({
   onNewSubcategory,
   onNewNote,
 }: HeaderProps) {
-  const router = useRouter()
-  
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [coords, setCoords] = useState<{ x: number; y: number } | null>(null)
+
+  const handleSettingsClick = (e: React.MouseEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    setCoords({ x: rect.right, y: rect.bottom })
+    setMenuOpen(!menuOpen)
+  }
+
+  const handleCloseMenu = () => setMenuOpen(false)
+
   return (
-    <header className="bg-[#161b22] border border-[#30363d] px-6 py-4 rounded-md">
+    <header className="bg-[var(--background)] border border-[#30363d] px-6 py-4 rounded-md relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <h1 className="text-xl font-semibold">Penses-Bêtes</h1>
 
         <div className="flex items-center gap-3">
           <button
             onClick={onNewCategory}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
+            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">📁</span>
             <span>Catégorie</span>
@@ -34,7 +44,7 @@ export default function Header({
 
           <button
             onClick={onNewSubcategory}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
+            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">📂</span>
             <span>Sous-catégorie</span>
@@ -47,22 +57,45 @@ export default function Header({
             <span className="text-lg">+</span>
             <span>Pense-Bête</span>
           </button>
-
-            {/* Bouton déconnexion en haut */}
-            <div className="flex justify-end p-2">
-              <button
-                onClick={() => logout(router.push)}
-                className="text-white cursor-pointer flex items-center gap-1 px-2 py-1 rounded text-sm hover:text-[#7d8590]"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                  <path d="M22.763,10.232l-4.95-4.95L16.4,6.7,20.7,11H6.617v2H20.7l-4.3,4.3,1.414,1.414,4.95-4.95a2.5,2.5,0,0,0,0-3.536Z"/>
-                  <path d="M10.476,21a1,1,0,0,1-1,1H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H9.476a1,1,0,0,1,1,1V8.333h2V3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V21a3,3,0,0,0,3,3H9.476a3,3,0,0,0,3-3V15.667h-2Z"/>
-                </svg>
-              </button>
-            </div>
-
         </div>
       </div>
+
+      {/* Bouton de paramètres fixe en haut à droite */}
+      <div className="fixed top-6 right-4 z-[1000]">
+        <button
+          onClick={handleSettingsClick}
+          className="cursor-pointer text-[var(--primary)] hover:text-[#7d8590] p-2 rounded-full bg-[var(--button)] hover:bg-[var(--hover)] transition-colors"
+          aria-label="Menu paramètres"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+          >
+            <path d="M19.14,12.936a7.963,7.963,0,0,0,.06-.936,7.963,7.963,0,0,0-.06-.936l2.11-1.65a.5.5,0,0,0,.12-.64l-2-3.464a.5.5,0,0,0-.6-.22l-2.49,1a7.994,7.994,0,0,0-1.62-.936l-.38-2.65A.5.5,0,0,0,13.75,2h-3.5a.5.5,0,0,0-.49.42l-.38,2.65a7.994,7.994,0,0,0-1.62.936l-2.49-1a.5.5,0,0,0-.6.22l-2,3.464a.5.5,0,0,0,.12.64l2.11,1.65a7.963,7.963,0,0,0-.06.936,7.963,7.963,0,0,0,.06.936l-2.11,1.65a.5.5,0,0,0-.12.64l2,3.464a.5.5,0,0,0,.6.22l2.49-1a7.994,7.994,0,0,0,1.62.936l.38,2.65a.5.5,0,0,0,.49.42h3.5a.5.5,0,0,0,.49-.42l.38-2.65a7.994,7.994,0,0,0,1.62-.936l2.49,1a.5.5,0,0,0,.6-.22l2-3.464a.5.5,0,0,0-.12-.64Zm-7.14,2.064A3,3,0,1,1,15,12,3,3,0,0,1,12,15Z" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Menu flottant (via portal) */}
+      {menuOpen &&
+        coords &&
+        createPortal(
+          <div
+            className="absolute bg-[var(--background)] border border-[#30363d] rounded-md shadow-lg z-[9999]"
+            style={{
+              top: coords.y + window.scrollY + 8,
+              right: 15,
+              position: 'absolute',
+              width: '160px',
+            }}
+          >
+            <HeaderMenu onClose={handleCloseMenu} />
+          </div>,
+          document.body
+        )}
     </header>
   )
 }

@@ -27,9 +27,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d1117]">
-      <form onSubmit={handleSubmit} className="bg-[#161b22] p-6 rounded-lg w-96 space-y-4">
-        <h2 className="text-xl font-bold text-white text-center">Connexion</h2>
+    <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+      <form onSubmit={handleSubmit} className="bg-[var(--background)] p-6 rounded-lg w-96 space-y-4 border border-[#30363d]">
+        <h2 className="text-xl font-bold text-[var(--primary)] text-center">Connexion</h2>
 
         <Input
           type="email"
@@ -54,7 +54,7 @@ export default function LoginPage() {
         {/* 🔗 Lien vers la page d'inscription */}
         <p className="text-center text-sm text-gray-400">
           Pas encore de compte ?{' '}
-          <Link href="/register" className="text-white hover:underline">
+          <Link href="/register" className="text-[var(--primary)] hover:underline">
             Inscris-toi ici
           </Link>
         </p>

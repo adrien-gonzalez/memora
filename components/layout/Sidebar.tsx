@@ -67,14 +67,14 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <aside className="w-64 flex-shrink-0">
-      <div className="bg-[#161b22] border border-[#30363d] rounded-md p-4">
+      <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-4">
         <h2 className="text-sm font-semibold mb-3 text-[#7d8590]">CATÉGORIES</h2>
         <button
           onClick={onSelectAllNotes}
-          className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+          className={`cursor-pointer w-full text-left px-3 py-2 rounded-md text-sm ${
             !selectedSubcategory
               ? 'bg-[#e6edf3] text-[#0d1117] font-medium'
-              : 'hover:bg-[#21262d]'
+              : 'hover:bg-[var(--hover)]'
           }`}
         >
           Tous les penses-bêtes
@@ -89,12 +89,12 @@ export default function Sidebar({
                   <input
                     value={editingCategoryName}
                     onChange={e => onChangeCategoryName(e.target.value)}
-                    className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+                    className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
                   />
                   <input
                     value={editingCategoryDescription}
                     onChange={e => onChangeCategoryDescription(e.target.value)}
-                    className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+                    className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
                   />
                   <div className="flex gap-2">
                     <button onClick={() => onSaveCategory(cat.id)} className="cursor-pointer px-2 py-1 bg-[#238636] text-white rounded text-sm">
@@ -121,17 +121,17 @@ export default function Sidebar({
                       <input
                         value={editingSubcategoryName}
                         onChange={e => onChangeSubcategoryName(e.target.value)}
-                        className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm w-full"
+                        className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm w-full"
                       />
                       <input
                         value={editingSubcategoryDescription}
                         onChange={e => onChangeSubcategoryDescription(e.target.value)}
-                        className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm w-full"
+                        className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm w-full"
                       />
                       <select
                         value={editingSubcategoryCategoryId}
                         onChange={e => onChangeSubcategoryCategory(e.target.value)}
-                        className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm w-full"
+                        className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm w-full"
                       >
                         {categories.map(c => (
                           <option key={c.id} value={c.id}>{c.name}</option>
@@ -148,10 +148,10 @@ export default function Sidebar({
                     <>
                       <button
                         onClick={() => onSelectSubcategory(sub.id)}
-                        className={`w-full text-left px-3 py-1.5 rounded-md text-sm ${
+                        className={`cursor-pointer w-full text-left px-3 py-1.5 rounded-md text-sm ${
                           selectedSubcategory === sub.id
                             ? 'bg-[#e6edf3] text-[#0d1117] font-medium'
-                            : 'hover:bg-[#21262d]'
+                            : 'hover:bg-[var(--hover)]'
                         }`}
                       >
                         {sub.name} <span className="text-xs text-[#7d8590]">({sub._count?.notes || 0})</span>

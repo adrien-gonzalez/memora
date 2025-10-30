@@ -55,23 +55,23 @@ function NoteCard({
 
   if (isEditing) {
     return (
-      <div className="bg-[#161b22] border border-[#30363d] rounded-md overflow-hidden">
+      <div className="bg-[var(--background)] border border-[#30363d] rounded-md overflow-hidden">
         <div className="p-4 border-b border-[#30363d] space-y-4">
           <input
             value={editingNoteTitle}
             onChange={e => setEditingNoteTitle(e.target.value)}
-            className="w-full px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+            className="w-full px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
           />
           <textarea
             value={editingNoteDescription}
             onChange={e => setEditingNoteDescription(e.target.value)}
             rows={3}
-            className="w-full px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+            className="w-full px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
           />
           <select
             value={editingNoteSubcategoryId}
             onChange={e => setEditingNoteSubcategoryId(e.target.value)}
-            className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+            className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
           >
             {categories.flatMap(c =>
               c.subcategories.map(s => (
@@ -98,7 +98,7 @@ function NoteCard({
                     <select
                       value={snippet.language}
                       onChange={e => updateEditingSnippet(idx, 'language', e.target.value)}
-                      className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded text-sm"
+                      className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
                     >
                       <option value="bash">Bash</option>
                       <option value="javascript">JavaScript</option>
@@ -120,7 +120,7 @@ function NoteCard({
                     value={snippet.code}
                     onChange={e => updateEditingSnippet(idx, 'code', e.target.value)}
                     rows={6}
-                    className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md font-mono text-sm"
+                    className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md font-mono text-sm"
                   />
                 </div>
               ))}
@@ -138,7 +138,7 @@ function NoteCard({
 
   // Vue normale
   return (
-    <div className="bg-[#161b22] border border-[#30363d] rounded-md overflow-hidden">
+    <div className="bg-[var(--background)] border border-[#30363d] rounded-md overflow-hidden">
       <div className="p-4 border-b border-[#30363d]">
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold text-[#58a6ff] mb-2">{note.title}</h3>
@@ -150,14 +150,14 @@ function NoteCard({
         <div className="flex items-center gap-2 text-xs text-[#7d8590] mb-2">
           <span>{note.subcategory.category.name}</span> › <span>{note.subcategory.name}</span>
         </div>
-        <p className="text-[#c9d1d9]">{note.description}</p>
+        <p className="text-[var(--primary)]">{note.description}</p>
         
         {/* Ne render les snippets que si hideSnippets est false */}
         {!hideSnippets && note?.snippets?.length > 0 && (
           <div className="space-y-3 p-4">
             {note.snippets.map((snippet, idx) => (
               <div key={snippet.id || idx} className="relative">
-                <div className="flex items-center justify-between bg-[#21262d] px-4 py-2 rounded-t-md border border-[#30363d] border-b-0">
+                <div className="flex items-center justify-between bg-[var(--button)] px-4 py-2 rounded-t-md border border-[#30363d] border-b-0">
                   <span className="text-xs font-mono text-[#7d8590]">{snippet.language}</span>
                   <button
                     onClick={() => copyToClipboard(snippet.code, snippet.id || `${note.id}-${idx}`)}
@@ -191,7 +191,7 @@ function NoteCard({
         
         {/* Si snippets cachés, afficher un placeholder */}
         {hideSnippets && note?.snippets?.length > 0 && (
-          <div className="mt-4 p-3 bg-[#21262d] rounded border border-[#30363d] text-center text-[#7d8590] text-sm">
+          <div className="mt-4 p-3 bg-[var(--button)] rounded border border-[#30363d] text-center text-[#7d8590] text-sm">
             {note.snippets.length} snippet{note.snippets.length > 1 ? 's' : ''}
           </div>
         )}

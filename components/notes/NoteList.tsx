@@ -66,7 +66,7 @@ export default function NoteList({ notes, categories }: NoteListProps) {
   // Early return APRÈS tous les hooks
   if (notes.length === 0) {
     return (
-      <div className="bg-[#161b22] border border-[#30363d] rounded-md p-8 text-center">
+      <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-8 text-center">
         <p className="text-[#7d8590]">Aucun pense-bête pour le moment</p>
       </div>
     )

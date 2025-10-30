@@ -37,13 +37,13 @@ export default function NoteForm({
 }: NoteFormProps) {
 
   return (
-    <div className="bg-[#161b22] border border-[#30363d] rounded-md p-6">
+    <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-6">
       <h2 className="text-xl font-semibold mb-4">Nouveau Pense-Bête</h2>
 
       <select
         value={note.subcategoryId}
         onChange={e => setNote({ ...note, subcategoryId: e.target.value })}
-        className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md mb-2"
+        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
       >
         <option value="">Sélectionner une sous-catégorie</option>
         {categories.flatMap(c =>
@@ -60,7 +60,7 @@ export default function NoteForm({
         value={note.title}
         onChange={e => setNote({ ...note, title: e.target.value })}
         placeholder="Titre"
-        className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md mb-2"
+        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
       />
 
       <textarea
@@ -68,7 +68,7 @@ export default function NoteForm({
         onChange={e => setNote({ ...note, description: e.target.value })}
         placeholder="Description"
         rows={4}
-        className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md mb-2"
+        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
       />
 
       {/* Snippets */}
@@ -86,7 +86,7 @@ export default function NoteForm({
               <select
                 value={snippet.language}
                 onChange={e => updateSnippet(idx, 'language', e.target.value)}
-                className="px-2 py-1 bg-[#0d1117] border border-[#30363d] rounded"
+                className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded"
               >
                 <option value="bash">Bash</option>
                 <option value="javascript">JavaScript</option>
@@ -110,7 +110,7 @@ export default function NoteForm({
               value={snippet.code}
               onChange={e => updateSnippet(idx, 'code', e.target.value)}
               rows={6}
-              className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md font-mono text-sm"
+              className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md font-mono text-sm"
             />
           </div>
         ))}
@@ -120,7 +120,7 @@ export default function NoteForm({
         <button onClick={createNote} className="hover:bg-[#d0d7de] cursor-pointer px-4 py-2 bg-[#e6edf3] rounded-md text-black">
           Créer
         </button>
-        <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[#21262d] rounded-md">
+        <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[var(--button)] rounded-md">
           Annuler
         </button>
       </div>

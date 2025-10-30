@@ -26,9 +26,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d1117]">
-      <form onSubmit={handleSubmit} className="bg-[#161b22] p-6 rounded-lg w-96 space-y-4">
-        <h2 className="text-xl font-bold text-white text-center">Créer un compte</h2>
+    <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+      <form onSubmit={handleSubmit} className="bg-[var(--background)] p-6 rounded-lg w-96 space-y-4 border border-[#30363d]">
+        <h2 className="text-xl font-bold text-[var(--primary)] text-center">Créer un compte</h2>
 
         {['firstName', 'lastName', 'email', 'password'].map(field => (
           <Input
@@ -45,7 +45,7 @@ export default function RegisterPage() {
               }
               value={(form as any)[field]}
               onChange={e => setForm({ ...form, [field]: e.target.value })}
-              className="w-full p-2 rounded bg-[#0d1117] border border-[#30363d] text-white"
+              className="w-full p-2 rounded bg-[var(--background)] border border-[#30363d]"
           />
         ))}
 
@@ -58,7 +58,7 @@ export default function RegisterPage() {
         {/* 🔗 Lien vers la page de connexion */}
         <p className="text-center text-sm text-gray-400">
           Déjà inscrit ?{' '}
-          <Link href="/login" className="text-white hover:underline">
+          <Link href="/login" className="text-[var(--primary)] hover:underline">
             Connecte-toi ici
           </Link>
         </p>

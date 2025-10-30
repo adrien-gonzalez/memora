@@ -9,25 +9,25 @@ type CategoryFormProps = {
 
 export default function CategoryForm({ category, setCategory, createCategory, onCancel }: CategoryFormProps) {
   return (
-    <div className="bg-[#161b22] border border-[#30363d] rounded-md p-6">
+    <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-6">
       <h2 className="text-xl font-semibold mb-4">Nouvelle Catégorie</h2>
       <input
         type="text"
         value={category.name}
         onChange={e => setCategory({ ...category, name: e.target.value })}
         placeholder="Nom"
-        className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md mb-2"
+        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
       />
       <textarea
         value={category.description}
         onChange={e => setCategory({ ...category, description: e.target.value })}
         placeholder="Description (optionnel)"
         rows={3}
-        className="w-full px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-md mb-2"
+        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
       />
       <div className="flex gap-2">
         <button onClick={createCategory} className="text-black cursor-pointer px-4 py-2 bg-[#e6edf3] rounded-md hover:bg-[#d0d7de]">Créer</button>
-        <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[#21262d] rounded-md">Annuler</button>
+        <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[var(--button)] rounded-md">Annuler</button>
       </div>
     </div>
   )

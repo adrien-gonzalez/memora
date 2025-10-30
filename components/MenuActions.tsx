@@ -23,7 +23,7 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
     <div className="relative inline-block text-left">
       <button
         onClick={handleToggle}
-        className="cursor-pointer px-2 py-1 text-sm hover:bg-[#21262d] rounded"
+        className="cursor-pointer px-2 py-1 text-sm hover:bg-[var(--button)] rounded"
       >
         ⋮
       </button>
@@ -32,7 +32,7 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
         coords &&
         createPortal(
           <div
-            className="absolute bg-[#161b22] border border-[#30363d] rounded-md shadow-lg z-[9999]"
+            className="absolute bg-[var(--background)] border border-[#30363d] rounded-md shadow-lg z-[9999]"
             style={{
               top: coords.y + window.scrollY,
               left: coords.x - 128, // largeur du menu

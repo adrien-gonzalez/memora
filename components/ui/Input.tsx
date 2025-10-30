@@ -14,7 +14,7 @@ const Input: React.FC<InputProps> = ({ label, error, className = '', ...props })
       {label && <label className="mb-1 text-sm text-[#7d8590]">{label}</label>}
       <input
         {...props}
-        className={`w-full p-2 rounded bg-[#0d1117] border border-[#30363d] text-white focus:outline-none focus:border-white ${className}`}
+        className={`w-full p-2 rounded bg-[var(--background)] border border-[#30363d] text-[var(--primary)] focus:outline-none focus:border-[var(--primary)] ${className}`}
       />
       {error && <span className="text-red-500 text-xs mt-1">{error}</span>}
     </div>
