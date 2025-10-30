@@ -2,6 +2,7 @@
 
 import { CSS } from '@dnd-kit/utilities'
 import { useSortable } from '@dnd-kit/sortable'
+import { memo } from 'react'
 import NoteCard from './NoteCard'
 import { Note, Category, Snippet } from '@/lib/types'
 
@@ -26,28 +27,64 @@ type SortableNoteProps = {
   saveNote: (id: string) => void
   setEditingNoteId: (id: string | null) => void
   copyToClipboard: (code: string, id: string) => void
+  isDragging?: boolean
+  isOverlay?: boolean
+  hideSnippets?: boolean
 }
 
-export default function SortableNote(props: SortableNoteProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.note.id })
+function SortableNote(props: SortableNoteProps) {
+  const { 
+    attributes, 
+    listeners, 
+    setNodeRef, 
+    transform, 
+    transition,
+  } = useSortable({ 
+    id: props.note.id,
+    transition: {
+      duration: 200,
+      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    }
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    opacity: props.isDragging && !props.isOverlay ? 0.4 : 1,
+    // Force hardware acceleration
+    ...(props.isOverlay && {
+      transform: 'translate3d(0, 0, 0)',
+      willChange: 'transform',
+    })
   }
 
-  return (
-    <div ref={setNodeRef} style={style} className="relative">
-      {/* Drag handle */}
-      <div
-        {...attributes}
-        {...listeners}
-        className="absolute top-2 right-2 cursor-grab text-gray-400 hover:text-gray-200 z-10 select-none"
-      >
-        ⠿
-      </div>
+  const dragHandleProps = props.isOverlay ? {} : { ...attributes, ...listeners }
 
-      <NoteCard {...props} />
+  return (
+    <div ref={props.isOverlay ? undefined : setNodeRef} style={style} className="relative">
+      {/* Drag handle - caché en mode overlay */}
+      {!props.isOverlay && (
+        <div
+          {...dragHandleProps}
+          className="absolute top-2 right-2 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-200 z-10 select-none"
+        >
+          ⠿
+        </div>
+      )}
+
+      <NoteCard {...props} hideSnippets={props.hideSnippets} />
     </div>
   )
 }
+
+// Mémoize pour éviter les re-renders inutiles
+export default memo(SortableNote, (prev, next) => {
+  // Re-render seulement si ces props changent
+  return (
+    prev.note.id === next.note.id &&
+    prev.isDragging === next.isDragging &&
+    prev.isOverlay === next.isOverlay &&
+    prev.editingNoteId === next.editingNoteId &&
+    prev.copiedSnippetId === next.copiedSnippetId
+  )
+})

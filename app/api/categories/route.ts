@@ -5,6 +5,7 @@ import { getUserIdFromRequest } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
   const userId = getUserIdFromRequest(req)
+
   if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   
   const categories = await prisma.category.findMany({

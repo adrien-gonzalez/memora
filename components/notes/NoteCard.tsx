@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import MenuActions from '@/components/MenuActions'
 import { Note, Snippet, Category } from '@/lib/types'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -25,9 +26,10 @@ type NoteCardProps = {
   saveNote: (id: string) => void
   setEditingNoteId: (id: string | null) => void
   copyToClipboard: (code: string, id: string) => void
+  hideSnippets?: boolean
 }
 
-export default function NoteCard({
+function NoteCard({
   note,
   categories,
   editingNoteId,
@@ -47,6 +49,7 @@ export default function NoteCard({
   saveNote,
   setEditingNoteId,
   copyToClipboard,
+  hideSnippets = false,
 }: NoteCardProps) {
   const isEditing = editingNoteId === note.id
 
@@ -148,7 +151,9 @@ export default function NoteCard({
           <span>{note.subcategory.category.name}</span> › <span>{note.subcategory.name}</span>
         </div>
         <p className="text-[#c9d1d9]">{note.description}</p>
-        {note?.snippets?.length > 0 && (
+        
+        {/* Ne render les snippets que si hideSnippets est false */}
+        {!hideSnippets && note?.snippets?.length > 0 && (
           <div className="space-y-3 p-4">
             {note.snippets.map((snippet, idx) => (
               <div key={snippet.id || idx} className="relative">
@@ -172,7 +177,9 @@ export default function NoteCard({
                     margin: 0,
                     borderRadius: '0 0 6px 6px',
                     border: '1px solid #30363d',
-                    fontSize: '13px'
+                    fontSize: '13px',
+                    maxHeight: '450px',
+                    overflow: 'auto'
                   }}
                 >
                   {snippet.code}
@@ -181,7 +188,24 @@ export default function NoteCard({
             ))}
           </div>
         )}
+        
+        {/* Si snippets cachés, afficher un placeholder */}
+        {hideSnippets && note?.snippets?.length > 0 && (
+          <div className="mt-4 p-3 bg-[#21262d] rounded border border-[#30363d] text-center text-[#7d8590] text-sm">
+            {note.snippets.length} snippet{note.snippets.length > 1 ? 's' : ''}
+          </div>
+        )}
       </div>
     </div>
   )
 }
+
+// Mémoize le composant
+export default memo(NoteCard, (prev, next) => {
+  return (
+    prev.note.id === next.note.id &&
+    prev.editingNoteId === next.editingNoteId &&
+    prev.copiedSnippetId === next.copiedSnippetId &&
+    prev.hideSnippets === next.hideSnippets
+  )
+})

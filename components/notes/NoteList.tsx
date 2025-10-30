@@ -1,7 +1,20 @@
 'use client'
 
-import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { 
+  DndContext, 
+  closestCenter, 
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core'
+import { 
+  SortableContext, 
+  verticalListSortingStrategy 
+} from '@dnd-kit/sortable'
+import { useState, useMemo } from 'react'
 import SortableNote from './SortableNote'
 import { Note, Category } from '@/lib/types'
 import { useNotes } from '@/hooks/useNotes'
@@ -12,6 +25,17 @@ type NoteListProps = {
 }
 
 export default function NoteList({ notes, categories }: NoteListProps) {
+  const [activeId, setActiveId] = useState<string | null>(null)
+  
+  // Sensor optimisé
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  )
+  
   const {
     editingNoteId,
     editingNoteTitle,
@@ -31,8 +55,15 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     copiedSnippetId,
     copyToClipboard,
     saveNoteOrder,
-  } = useNotes() // ✅ récupérer tous les states et actions
+  } = useNotes()
 
+  const notesArray = Array.isArray(notes) ? notes : []
+  const activeNote = useMemo(
+    () => activeId ? notesArray.find(n => n.id === activeId) : null,
+    [activeId, notesArray]
+  )
+
+  // Early return APRÈS tous les hooks
   if (notes.length === 0) {
     return (
       <div className="bg-[#161b22] border border-[#30363d] rounded-md p-8 text-center">
@@ -41,8 +72,14 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     )
   }
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string)
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+    setActiveId(null)
+    
     if (!over || active.id === over.id) return
 
     const oldIndex = notes.findIndex(n => n.id === active.id)
@@ -55,13 +92,21 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     saveNoteOrder(newNotes)
   }
 
-  const notesArray = Array.isArray(notes) ? notes : []
+  const handleDragCancel = () => {
+    setActiveId(null)
+  }
 
   return (
     <div className="space-y-4">
-      <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
+      <DndContext 
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+        collisionDetection={closestCenter}
+      >
         <SortableContext items={notesArray.map(n => n.id)} strategy={verticalListSortingStrategy}>
-          {notesArray?.map((note, idx) => (
+          {notesArray.map((note, idx) => (
             <SortableNote
               key={note.id}
               note={note}
@@ -84,9 +129,53 @@ export default function NoteList({ notes, categories }: NoteListProps) {
               saveNote={saveNote}
               setEditingNoteId={setEditingNoteId}
               copyToClipboard={copyToClipboard}
+              isDragging={note.id === activeId}
             />
           ))}
         </SortableContext>
+        
+        {/* Overlay simplifié avec will-change pour la perf */}
+        <DragOverlay 
+          dropAnimation={null}
+          style={{ 
+            willChange: 'transform',
+          }}
+        >
+          {activeNote ? (
+            <div 
+              className="cursor-grabbing"
+              style={{
+                // Force hardware acceleration
+                transform: 'translate3d(0, 0, 0)',
+                willChange: 'transform',
+              }}
+            >
+              <SortableNote
+                note={activeNote}
+                index={0}
+                categories={categories}
+                editingNoteId={null} // Désactive l'édition pendant le drag
+                editingNoteTitle=""
+                editingNoteDescription=""
+                editingNoteSubcategoryId=""
+                editingNoteSnippets={[]}
+                copiedSnippetId={null}
+                startEditingNote={() => {}}
+                deleteNote={() => {}}
+                setEditingNoteTitle={() => {}}
+                setEditingNoteDescription={() => {}}
+                setEditingNoteSubcategoryId={() => {}}
+                addEditingSnippet={() => {}}
+                updateEditingSnippet={() => {}}
+                removeEditingSnippet={() => {}}
+                saveNote={() => {}}
+                setEditingNoteId={() => {}}
+                copyToClipboard={() => {}}
+                isOverlay
+              />
+            </div>
+          ) : null}
+        </DragOverlay>
       </DndContext>
     </div>
   )

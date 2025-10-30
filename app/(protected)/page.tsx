@@ -87,7 +87,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9]">
+    <div className=" bg-[#0d1117] text-[#c9d1d9]">
       <Header
         selectedSubcategory={selectedSubcategory ?? undefined}
         onNewCategory={() => setView('newCategory')}

@@ -8,6 +8,7 @@ export function getUserIdFromRequest(req: NextRequest): string | null {
   if (!authHeader?.startsWith('Bearer ')) return null
 
   const token = authHeader.split(' ')[1]
+
   try {
     const payload = jwt.verify(token, SECRET) as { id: string; email: string }
     return payload.id   // ← Retourne juste l'ID
