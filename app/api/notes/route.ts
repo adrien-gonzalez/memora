@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       order: 0,
       userId,           // l'ID de l'utilisateur
       subcategoryId,    // ← juste l'ID, pas besoin de .subcategory.connect
-      ...(snippets?.length > 0 && {
+      ...(snippets && snippets?.length > 0 && {
         snippets: {
           create: snippets.map(s => ({ code: s.code, language: s.language, order: s.order }))
         }

@@ -4,11 +4,11 @@ import prisma from '@/lib/prisma'
 import { getUserIdFromRequest } from '@/lib/auth'
 
 export async function GET(req: NextRequest) {
-  const user = getUserIdFromRequest(req)
-  if (!user) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+  const userId = getUserIdFromRequest(req)
+  if (!userId) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
 
   const subcategories = await prisma.subcategory.findMany({
-    where: { userId: { equals: user.id } }, // ✅ Correction Prisma 6
+    where: { userId: { equals: userId } },
     include: {
       category: true,
       _count: { select: { notes: true } }
