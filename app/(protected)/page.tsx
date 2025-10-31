@@ -76,7 +76,7 @@ export default function Home() {
         onNewNote={initNewNote}
       />
 
-      <div className="max-w-7xl mx-auto pt-6 flex gap-6">
+      <div className="w-full md:max-w-7xl mx-auto pt-6 flex flex-col md:flex-row gap-6">
         <Sidebar
           categories={categories}
           selectedSubcategory={selectedSubcategory ?? null}
@@ -116,7 +116,7 @@ export default function Home() {
           onDeleteSubcategory={deleteSubcategory}
         />
 
-        <main className="flex-1 w-64">
+        <main className="flex-1 w-full md:w-64">
           {view === 'notes' && (
             <NoteList
               notes={notes}

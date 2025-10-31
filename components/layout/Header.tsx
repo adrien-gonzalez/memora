@@ -29,14 +29,13 @@ export default function Header({
   const handleCloseMenu = () => setMenuOpen(false)
 
   return (
-    <header className="bg-[var(--background)] border border-[#30363d] px-6 py-4 rounded-md relative">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Penses-Bêtes</h1>
-
-        <div className="flex items-center gap-3">
+   <header className="bg-[var(--background)] border border-[#30363d] px-6 py-4 rounded-md relative">
+      <div className="w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between">
+        <h1 className="text-xl font-semibold w-full sm:w-auto">Penses-Bêtes</h1>
+        <div className="w-full sm:w-auto flex items-center gap-3 flex-wrap mt-2 sm:mt-0">
           <button
             onClick={onNewCategory}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
+            className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">📁</span>
             <span>Catégorie</span>
@@ -44,7 +43,7 @@ export default function Header({
 
           <button
             onClick={onNewSubcategory}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
+            className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[var(--button)] hover:bg-[var(--hover)] border border-[#30363d] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">📂</span>
             <span>Sous-catégorie</span>
@@ -52,7 +51,7 @@ export default function Header({
 
           <button
             onClick={() => onNewNote(selectedSubcategory)}
-            className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-[#e6edf3] hover:bg-[#d0d7de] text-[#0d1117] rounded-md text-sm font-medium transition-colors"
+            className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[#e6edf3] hover:bg-[#d0d7de] text-[#0d1117] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">+</span>
             <span>Pense-Bête</span>

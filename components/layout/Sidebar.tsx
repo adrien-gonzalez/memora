@@ -67,7 +67,7 @@ export default function Sidebar({
   onDeleteSubcategory,
 }: SidebarProps) {
   return (
-    <aside className="w-64 flex-shrink-0">
+    <aside className="w-full md:w-64 flex-shrink-0">
       <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-4">
         <h2 className="text-sm font-semibold mb-3 text-[#7d8590]">CATÉGORIES</h2>
         <button

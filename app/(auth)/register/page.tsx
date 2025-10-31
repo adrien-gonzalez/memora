@@ -26,7 +26,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+    <div className="mt-[25vh] flex items-center justify-center bg-[var(--background)]">
       <form onSubmit={handleSubmit} className="bg-[var(--background)] p-6 rounded-lg w-96 space-y-4 border border-[#30363d]">
         <h2 className="text-xl font-bold text-[var(--primary)] text-center">Créer un compte</h2>
 
