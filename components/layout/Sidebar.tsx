@@ -3,6 +3,7 @@
 import MenuActions from '@/components/MenuActions'
 import { Category, Subcategory } from '@/lib/types'
 import CheckIcon from '../CheckIcon'
+import Input from '../ui/Input'
 
 type SidebarProps = {
   categories: Category[]
@@ -86,21 +87,26 @@ export default function Sidebar({
               {/* Catégorie */}
               {editingCategoryId === cat.id ? (
                 <div className="flex gap-2 items-center flex-col">
-                  <input
+                  <Input
+                    label="Nom de la catégorie"
                     value={editingCategoryName}
                     onChange={e => onChangeCategoryName(e.target.value)}
-                    className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
+                    placeholder="Nom de la catégorie"
+                    className="text-sm px-2 py-1"
                   />
-                  <input
+
+                  <Input
+                    label="Description de la catégorie"
                     value={editingCategoryDescription}
                     onChange={e => onChangeCategoryDescription(e.target.value)}
-                    className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
+                    placeholder="Description (optionnel)"
+                    className="text-sm px-2 py-1"
                   />
                   <div className="flex gap-2">
-                    <button onClick={() => onSaveCategory(cat.id)} className="cursor-pointer px-2 py-1 bg-[#238636] text-white rounded text-sm">
+                    <button onClick={() => onSaveCategory(cat.id)} className="border-[#30363d] cursor-pointer px-2 py-1 bg-[#e6edf3] text-white rounded text-sm">
                       <CheckIcon className=" w-6 h-6 text-green-500" />
                     </button>
-                    <button onClick={onCancelEditCategory} className="cursor-pointer px-2 py-1 bg-red-600 text-white rounded text-sm">❌</button>
+                    <button onClick={onCancelEditCategory} className="cursor-pointer px-2 py-1 bg-[#e6edf3] text-white rounded text-sm">❌</button>
                   </div>
                 </div>
               ) : (
@@ -118,16 +124,20 @@ export default function Sidebar({
                 <div key={sub.id} className="flex items-center gap-2 pl-6">
                   {editingSubcategoryId === sub.id ? (
                     <div className="flex gap-2 items-center flex-col w-full">
-                      <input
+                      <Input
                         value={editingSubcategoryName}
                         onChange={e => onChangeSubcategoryName(e.target.value)}
-                        className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm w-full"
+                        placeholder="Nom de la sous-catégorie"
+                        className="text-sm px-2 py-1 w-full"
                       />
-                      <input
+
+                      <Input
                         value={editingSubcategoryDescription}
                         onChange={e => onChangeSubcategoryDescription(e.target.value)}
-                        className="px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm w-full"
+                        placeholder="Description (optionnel)"
+                        className="text-sm px-2 py-1 w-full"
                       />
+                      
                       <select
                         value={editingSubcategoryCategoryId}
                         onChange={e => onChangeSubcategoryCategory(e.target.value)}
@@ -138,10 +148,10 @@ export default function Sidebar({
                         ))}
                       </select>
                       <div className="flex gap-2">
-                        <button onClick={() => onSaveSubcategory(sub.id)} className="cursor-pointer px-2 py-1 bg-[#238636] text-white rounded text-sm">
+                        <button onClick={() => onSaveSubcategory(sub.id)} className="border-[#30363d] cursor-pointer px-2 py-1 bg-[#e6edf3] text-white rounded text-sm">
                           <CheckIcon className="w-6 h-6 text-green-500" />
                         </button>
-                        <button onClick={onCancelEditSubcategory} className="cursor-pointer px-2 py-1 bg-red-600 text-white rounded text-sm">❌</button>
+                        <button onClick={onCancelEditSubcategory} className="cursor-pointer px-2 py-1 bg-[#e6edf3] text-white rounded text-sm">❌</button>
                       </div>
                     </div>
                   ) : (

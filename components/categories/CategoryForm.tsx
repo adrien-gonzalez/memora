@@ -1,4 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
+import Input from "../ui/Input";
+import Textarea from "../ui/Textarea";
 
 type CategoryFormProps = {
   category: { name: string; description: string }
@@ -11,19 +13,19 @@ export default function CategoryForm({ category, setCategory, createCategory, on
   return (
     <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-6">
       <h2 className="text-xl font-semibold mb-4">Nouvelle Catégorie</h2>
-      <input
-        type="text"
+      <Input
         value={category.name}
         onChange={e => setCategory({ ...category, name: e.target.value })}
         placeholder="Nom"
-        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
+        className="mb-2"
       />
-      <textarea
+
+      <Textarea
         value={category.description}
         onChange={e => setCategory({ ...category, description: e.target.value })}
         placeholder="Description (optionnel)"
         rows={3}
-        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
+        className="mb-2"
       />
       <div className="flex gap-2">
         <button onClick={createCategory} className="text-black cursor-pointer px-4 py-2 bg-[#e6edf3] rounded-md hover:bg-[#d0d7de]">Créer</button>

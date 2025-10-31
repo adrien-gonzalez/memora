@@ -2,10 +2,13 @@
 'use client'
 
 import { Category, Snippet } from '@/lib/types'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
+import Input from '../ui/Input'
+import Textarea from '../ui/Textarea'
 
 type NoteFormProps = {
   categories: Category[]
+  selectedSubcategory: string | undefined
   note: {
     title: string
     description: string
@@ -27,6 +30,7 @@ type NoteFormProps = {
 
 export default function NoteForm({
   categories,
+  selectedSubcategory,
   note,
   setNote,
   createNote,
@@ -36,11 +40,17 @@ export default function NoteForm({
   onCancel,
 }: NoteFormProps) {
 
+
+  useEffect(() => {
+    if(selectedSubcategory)
+      setNote({ ...note, subcategoryId: selectedSubcategory })
+  }, [selectedSubcategory])
+
   return (
     <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-6">
       <h2 className="text-xl font-semibold mb-4">Nouveau Pense-Bête</h2>
-
-      <select
+      
+      <select 
         value={note.subcategoryId}
         onChange={e => setNote({ ...note, subcategoryId: e.target.value })}
         className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
@@ -55,20 +65,19 @@ export default function NoteForm({
         )}
       </select>
 
-      <input
-        type="text"
+      <Input
         value={note.title}
         onChange={e => setNote({ ...note, title: e.target.value })}
         placeholder="Titre"
-        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
+        className="mb-2"
       />
 
-      <textarea
+      <Textarea
         value={note.description}
         onChange={e => setNote({ ...note, description: e.target.value })}
         placeholder="Description"
         rows={4}
-        className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md mb-2"
+        className="mb-2"
       />
 
       {/* Snippets */}

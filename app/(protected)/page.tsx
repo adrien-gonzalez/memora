@@ -32,7 +32,6 @@ export default function Home() {
 
 
   const {
-    subcategories,
     newSubcategory,
     setNewSubcategory,
     editingSubcategoryId,
@@ -52,31 +51,13 @@ export default function Home() {
     notes,
     view,
     setView,
-    copiedSnippetId,
     newNote,
     setNewNote,
-    editingNoteId,
-    editingNoteTitle,
-    editingNoteDescription,
-    editingNoteSubcategoryId,
-    editingNoteSnippets,
-    setEditingNoteTitle,
-    setEditingNoteDescription,
-    setEditingNoteSubcategoryId,
-    setEditingNoteSnippets,
-    setEditingNoteId,
     fetchNotes,
     createNote,
-    startEditingNote,
-    saveNote,
-    deleteNote,
     addSnippet,
     updateSnippet,
     removeSnippet,
-    addEditingSnippet,
-    updateEditingSnippet,
-    removeEditingSnippet,
-    copyToClipboard,
     initNewNote,
   } = useNotes()
 
@@ -135,7 +116,7 @@ export default function Home() {
           onDeleteSubcategory={deleteSubcategory}
         />
 
-        <main className="flex-1">
+        <main className="flex-1 w-64">
           {view === 'notes' && (
             <NoteList
               notes={notes}
@@ -147,6 +128,7 @@ export default function Home() {
           {view === 'newNote' && (
             <NoteForm
               categories={categories}
+              selectedSubcategory={selectedSubcategory ?? undefined}
               note={newNote}       
               setNote={setNewNote}
               createNote={createNote}

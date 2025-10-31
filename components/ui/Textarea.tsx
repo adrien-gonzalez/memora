@@ -1,18 +1,18 @@
 'use client'
 
-import React, { InputHTMLAttributes } from 'react'
+import React, { TextareaHTMLAttributes } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string
   error?: string
 }
 
-const Input: React.FC<InputProps> = ({ label, error, className = '', ...props }) => {
+const Textarea: React.FC<TextareaProps> = ({ label, error, className = '', ...props }) => {
   return (
     <div className="flex flex-col w-full">
       {label && <label className="mb-1 text-sm text-[#7d8590]">{label}</label>}
       
-      <input
+      <textarea
         {...props}
         className={`
           w-full p-2 rounded bg-[var(--background)]
@@ -30,4 +30,4 @@ const Input: React.FC<InputProps> = ({ label, error, className = '', ...props })
   )
 }
 
-export default Input
+export default Textarea

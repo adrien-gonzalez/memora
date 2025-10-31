@@ -61,7 +61,7 @@ function SortableNote(props: SortableNoteProps) {
   const dragHandleProps = props.isOverlay ? {} : { ...attributes, ...listeners }
 
   return (
-    <div ref={props.isOverlay ? undefined : setNodeRef} style={style} className="relative">
+    <div ref={props.isOverlay ? undefined : setNodeRef} style={style} className="relative"  data-id={props.note.id}>
       {/* Drag handle - caché en mode overlay */}
       {!props.isOverlay && (
         <div
@@ -79,12 +79,15 @@ function SortableNote(props: SortableNoteProps) {
 
 // Mémoize pour éviter les re-renders inutiles
 export default memo(SortableNote, (prev, next) => {
-  // Re-render seulement si ces props changent
   return (
     prev.note.id === next.note.id &&
     prev.isDragging === next.isDragging &&
     prev.isOverlay === next.isOverlay &&
     prev.editingNoteId === next.editingNoteId &&
-    prev.copiedSnippetId === next.copiedSnippetId
+    prev.editingNoteTitle === next.editingNoteTitle &&
+    prev.editingNoteDescription === next.editingNoteDescription &&
+    prev.editingNoteSubcategoryId === next.editingNoteSubcategoryId &&
+    prev.copiedSnippetId === next.copiedSnippetId &&
+    prev.editingNoteSnippets === next.editingNoteSnippets
   )
 })

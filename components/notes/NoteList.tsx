@@ -26,8 +26,8 @@ type NoteListProps = {
 
 export default function NoteList({ notes, categories }: NoteListProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
-  
-  // Sensor optimisé
+  const [activeRect, setActiveRect] = useState<DOMRect | null>(null) // 👈 new
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -35,7 +35,7 @@ export default function NoteList({ notes, categories }: NoteListProps) {
       },
     })
   )
-  
+
   const {
     editingNoteId,
     editingNoteTitle,
@@ -63,23 +63,23 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     [activeId, notesArray]
   )
 
-  // Early return APRÈS tous les hooks
-  if (notes.length === 0) {
-    return (
-      <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-8 text-center">
-        <p className="text-[#7d8590]">Aucun pense-bête pour le moment</p>
-      </div>
-    )
-  }
-
+  // --- EVENTS ---
   const handleDragStart = (event: DragStartEvent) => {
-    setActiveId(event.active.id as string)
+    const id = event.active.id as string
+    setActiveId(id)
+
+    // Capture la taille du composant draggué
+    const el = document.querySelector(`[data-id="${id}"]`) as HTMLElement | null
+    if (el) {
+      setActiveRect(el.getBoundingClientRect())
+    }
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     setActiveId(null)
-    
+    setActiveRect(null)
+
     if (!over || active.id === over.id) return
 
     const oldIndex = notes.findIndex(n => n.id === active.id)
@@ -94,6 +94,16 @@ export default function NoteList({ notes, categories }: NoteListProps) {
 
   const handleDragCancel = () => {
     setActiveId(null)
+    setActiveRect(null)
+  }
+
+  // --- RENDER ---
+  if (notes.length === 0) {
+    return (
+      <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-8 text-center">
+        <p className="text-[#7d8590]">Aucun pense-bête pour le moment</p>
+      </div>
+    )
   }
 
   return (
@@ -134,27 +144,22 @@ export default function NoteList({ notes, categories }: NoteListProps) {
           ))}
         </SortableContext>
         
-        {/* Overlay simplifié avec will-change pour la perf */}
-        <DragOverlay 
+        {/* ✅ Overlay avec largeur du composant d’origine */}
+        <DragOverlay
           dropAnimation={null}
           style={{ 
             willChange: 'transform',
+            width: activeRect?.width,   // 👈 conserve la width réelle
+            height: activeRect?.height, // (optionnel) conserve aussi la hauteur
           }}
         >
-          {activeNote ? (
-            <div 
-              className="cursor-grabbing"
-              style={{
-                // Force hardware acceleration
-                transform: 'translate3d(0, 0, 0)',
-                willChange: 'transform',
-              }}
-            >
+          {activeNote && (
+            <div className="cursor-grabbing">
               <SortableNote
                 note={activeNote}
                 index={0}
                 categories={categories}
-                editingNoteId={null} // Désactive l'édition pendant le drag
+                editingNoteId={null}
                 editingNoteTitle=""
                 editingNoteDescription=""
                 editingNoteSubcategoryId=""
@@ -174,7 +179,7 @@ export default function NoteList({ notes, categories }: NoteListProps) {
                 isOverlay
               />
             </div>
-          ) : null}
+          )}
         </DragOverlay>
       </DndContext>
     </div>

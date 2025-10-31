@@ -52,7 +52,7 @@ function NoteCard({
   hideSnippets = false,
 }: NoteCardProps) {
   const isEditing = editingNoteId === note.id
-
+  
   if (isEditing) {
     return (
       <div className="bg-[var(--background)] border border-[#30363d] rounded-md overflow-hidden">
@@ -129,7 +129,7 @@ function NoteCard({
 
           <div className="flex gap-2 mt-2">
             <button onClick={() => saveNote(note.id)} className="cursor-pointer px-4 py-2 bg-[#d0d7de] rounded-md text-black">Sauvegarder</button>
-            <button onClick={() => setEditingNoteId(null)} className="cursor-pointer px-4 py-2 bg-red-600 rounded-md">Annuler</button>
+            <button onClick={() => setEditingNoteId(null)} className="text-white cursor-pointer px-4 py-2 bg-red-600 rounded-md">Annuler</button>
           </div>
         </div>
       </div>
@@ -161,7 +161,7 @@ function NoteCard({
                   <span className="text-xs font-mono text-[#7d8590]">{snippet.language}</span>
                   <button
                     onClick={() => copyToClipboard(snippet.code, snippet.id || `${note.id}-${idx}`)}
-                    className={`px-2 py-1 text-xs rounded transition-colors ${
+                    className={`cursor-pointer px-2 py-1 text-xs rounded transition-colors ${
                       copiedSnippetId === (snippet.id || `${note.id}-${idx}`)
                         ? 'bg-[#d0d7de] text-[#0d1117] font-medium'
                         : 'bg-[#e6edf3] text-[#0d1117] hover:bg-[#d0d7de]'
@@ -179,7 +179,7 @@ function NoteCard({
                     border: '1px solid #30363d',
                     fontSize: '13px',
                     maxHeight: '450px',
-                    overflow: 'auto'
+                    overflow: 'auto',
                   }}
                 >
                   {snippet.code}
@@ -205,7 +205,11 @@ export default memo(NoteCard, (prev, next) => {
   return (
     prev.note.id === next.note.id &&
     prev.editingNoteId === next.editingNoteId &&
+    prev.editingNoteTitle === next.editingNoteTitle &&
+    prev.editingNoteDescription === next.editingNoteDescription &&
+    prev.editingNoteSubcategoryId === next.editingNoteSubcategoryId &&
     prev.copiedSnippetId === next.copiedSnippetId &&
-    prev.hideSnippets === next.hideSnippets
+    prev.hideSnippets === next.hideSnippets &&
+    prev.editingNoteSnippets === next.editingNoteSnippets
   )
 })
