@@ -5,6 +5,8 @@ import MenuActions from '@/components/MenuActions'
 import { Note, Snippet, Category } from '@/lib/types'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import Input from '../ui/Input'
+import Textarea from '../ui/Textarea'
 
 type NoteCardProps = {
   note: Note
@@ -57,16 +59,19 @@ function NoteCard({
     return (
       <div className="bg-[var(--background)] border border-[#30363d] rounded-md overflow-hidden">
         <div className="p-4 border-b border-[#30363d] space-y-4">
-          <input
+          <Input
             value={editingNoteTitle}
             onChange={e => setEditingNoteTitle(e.target.value)}
             className="w-full px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
+            placeholder="Titre"
           />
-          <textarea
+
+          <Textarea
             value={editingNoteDescription}
             onChange={e => setEditingNoteDescription(e.target.value)}
             rows={3}
             className="w-full px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
+            placeholder="Description (optionnel)"
           />
           <select
             value={editingNoteSubcategoryId}
@@ -116,11 +121,12 @@ function NoteCard({
                       Supprimer
                     </button>
                   </div>
-                  <textarea
-                    value={snippet.code}
-                    onChange={e => updateEditingSnippet(idx, 'code', e.target.value)}
-                    rows={6}
-                    className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md font-mono text-sm"
+                  <Textarea
+                      value={snippet.code}
+                      onChange={e => updateEditingSnippet(idx, 'code', e.target.value)}
+                      rows={6}
+                      className="w-full px-3 py-2 bg-[var(--background)] border border-[#30363d] rounded-md font-mono text-sm"
+                      placeholder="Code (optionnel)"
                   />
                 </div>
               ))}
