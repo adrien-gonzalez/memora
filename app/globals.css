@@ -38,3 +38,17 @@ body {
   font-family: var(--font-sans, "Inter", system-ui, sans-serif);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+.logo {
+  background-image:  url('/logo_light.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.dark .logo {
+  background-image:  url('/logo_dark.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

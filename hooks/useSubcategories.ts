@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { NewSubcategory, Subcategory, UpdateSubcategoryData } from '@/lib/types'
 import * as subcategoryService from '@/services/subcategoryService'
 import { getDecodeToken } from '@/lib/clientAuth'
+import { toast } from 'sonner'
 
 export function useSubcategories() {
   const queryClient = useQueryClient()
@@ -26,12 +27,26 @@ export function useSubcategories() {
       queryClient.invalidateQueries({ queryKey: ['subcategories', userId] })
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
     },
+    onError: (error: any) => {
+      toast.error("Échec de la création", {
+        description:
+          error?.response?.data?.message ??
+          "Une erreur est survenue lors de la création de la sous-catégorie.",
+      });
+    },
   })
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateSubcategoryData }) =>
       subcategoryService.updateSubcategory(id, data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['subcategories', userId] }),
+    onError: (error: any) => {
+      toast.error("Échec de la mise à jour", {
+        description:
+          error?.response?.data?.message ??
+          "Impossible de mettre à jour cette sous-catégorie.",
+      });
+    },
   })
 
   const deleteMutation = useMutation({
@@ -40,7 +55,13 @@ export function useSubcategories() {
       queryClient.invalidateQueries({ queryKey: ['subcategories', userId] })
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
     },
-
+    onError: (error: any) => {
+      toast.error("Échec de la suppression", {
+        description:
+          error?.response?.data?.message ??
+          "Impossible de supprimer cette sous-catégorie.",
+      });
+    },
   })
 
   // --- Local state form / editing ---
@@ -52,7 +73,13 @@ export function useSubcategories() {
 
   // --- Actions ---
   const createSubcategory = async () => {
-    if (!newSubcategory.name || !newSubcategory.categoryId) return
+    if (!newSubcategory.name || !newSubcategory.categoryId) {
+      toast.error("Veuillez remplir tous les champs", {
+        description: "Sélectionnez une catégorie et indiquez un nom.",
+      });
+      return;
+    }
+
     await createMutation.mutateAsync(newSubcategory)
     setNewSubcategory({ name: '', description: '', categoryId: '' })
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, Transition } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { Edit2, Trash2 } from 'lucide-react'
 
@@ -14,9 +14,9 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
     <Menu as="div" className="relative inline-block text-left">
       {({ close }) => (
         <>
-          <Menu.Button className="cursor-pointer px-2 py-1 text-sm hover:bg-[var(--button)] rounded transition-colors">
+          <MenuButton className="cursor-pointer px-2 py-1 text-sm hover:bg-[var(--button)] rounded transition-colors">
             ⋮
-          </Menu.Button>
+          </MenuButton>
 
           <Transition
             as={Fragment}
@@ -27,9 +27,9 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-2 w-32 bg-[var(--background)] border border-[#30363d] rounded-md shadow-lg focus:outline-none z-[9999]">
+            <MenuItems className="absolute right-0 mt-2 w-32 bg-[var(--background)] border border-[#30363d] rounded-md shadow-lg focus:outline-none z-[9999]">
               <div className="px-1 py-1">
-                <Menu.Item>
+                <MenuItem>
                   {({ active }) => (
                     <button
                       onClick={() => {
@@ -44,7 +44,7 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
                       <span>Modifier</span>
                     </button>
                   )}
-                </Menu.Item>
+                </MenuItem>
 
                 <Menu.Item>
                   {({ active }) => (
@@ -63,7 +63,7 @@ export default function MenuActions({ onEdit, onDelete }: MenuActionsProps) {
                   )}
                 </Menu.Item>
               </div>
-            </Menu.Items>
+            </MenuItems>
           </Transition>
         </>
       )}

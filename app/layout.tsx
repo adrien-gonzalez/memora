@@ -2,6 +2,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import { ThemeScript } from "./theme-script";
 import Provider from "@/components/Provider";
+import { ToastProvider } from "@/providers/ToastProvider";
 
 export const metadata = {
   title: "Pense-bêtes",
@@ -18,7 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200">
         <main className="min-h-screen max-w-6xl 2xl:max-w-7xl mx-auto p-6">
-          <Provider>{children}</Provider>
+          <Provider>
+            <ToastProvider />
+            {children}
+            </Provider>
         </main>
       </body>
     </html>

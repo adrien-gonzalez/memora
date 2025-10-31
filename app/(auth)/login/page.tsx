@@ -27,7 +27,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mt-[25vh] flex items-center justify-center bg-[var(--background)]">
+    <div className="mt-[15vh] flex flex-col gap-5 items-center justify-center bg-[var(--background)]">
+      <div className='logo w-[90px] h-[100px]'></div>
       <form onSubmit={handleSubmit} className="bg-[var(--background)] p-6 rounded-lg w-96 space-y-4 border border-[#30363d]">
         <h2 className="text-xl font-bold text-[var(--primary)] text-center">Connexion</h2>
 

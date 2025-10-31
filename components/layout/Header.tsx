@@ -2,7 +2,7 @@
 
 import { Menu, MenuButton, MenuItems, Transition } from '@headlessui/react'
 import HeaderMenu from './HeaderMenu'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Modal from '../ui/Modal'
 import { deleteAccount } from '@/services/authService'
 import { logout } from '@/lib/clientAuth'
@@ -42,8 +42,11 @@ export default function Header({
     <header className="bg-[var(--background)] border border-[#30363d] px-6 py-4 rounded-md relative">
       <div className="w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between">
         {/* Titre */}
-        <h1 className="text-xl font-semibold w-full sm:w-auto">Penses-Bêtes</h1>
-
+        <div className='flex gap-4 items-center'>
+          <div className='logo w-[75px] h-[65px]'></div>
+          <h1 className="text-xl font-semibold w-full sm:w-auto">Penses-Bêtes</h1>
+        </div>
+        
         {/* Boutons Ajouter */}
         <div className="w-full sm:w-auto flex items-center gap-3 flex-wrap mt-2 sm:mt-0">
           <button

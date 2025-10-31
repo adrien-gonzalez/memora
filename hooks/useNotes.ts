@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { CreateNoteData, Note, Snippet } from '@/lib/types'
 import * as noteService from '@/services/noteService'
 import { getDecodeToken } from '@/lib/clientAuth'
+import { toast } from 'sonner'
 
 export function useNotes(selectedSubcategory?: string) {
   const queryClient = useQueryClient()
@@ -25,12 +26,25 @@ export function useNotes(selectedSubcategory?: string) {
       queryClient.invalidateQueries({ queryKey: ['notes', selectedSubcategory || 'all', userId] })
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
     },
+    onError: (error: any) => {
+      toast.error("Échec de la création de la note", {
+        description:
+          error?.response?.data?.message ??
+          "Une erreur inattendue est survenue. Veuillez réessayer.",
+      });
+    },
   })
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<Note> }) =>
       noteService.updateNote(id, data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['notes', selectedSubcategory || 'all', userId] }),
+    onError: (error: any) => {
+      toast.error("Échec de la mise à jour", {
+        description:
+          error?.response?.data?.message ?? "Impossible de modifier cette note.",
+      });
+    },
   })
 
   const deleteMutation = useMutation({
@@ -38,6 +52,12 @@ export function useNotes(selectedSubcategory?: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes', selectedSubcategory || 'all', userId] }),
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
+    },
+    onError: (error: any) => {
+      toast.error("Échec de la suppression", {
+        description:
+          error?.response?.data?.message ?? "Impossible de supprimer cette note.",
+      });
     },
   })
 
@@ -60,7 +80,13 @@ export function useNotes(selectedSubcategory?: string) {
 
   // --- Actions ---
   const createNote = async () => {
-    if (!newNote.subcategoryId) return
+    if (!newNote.subcategoryId) {
+      toast.error("Aucune sous-catégorie sélectionnée", {
+        description: "Veuillez sélectionner une sous-catégorie ou en créer une avant de continuer.",
+      });
+      return;
+    }
+
     await createMutation.mutateAsync({
       title: newNote.title,
       description: newNote.description,

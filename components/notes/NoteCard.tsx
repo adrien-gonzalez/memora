@@ -77,8 +77,8 @@ function NoteCard({
 
   // Vue normale
   return (
-    <div className="bg-[var(--background)] border border-[#30363d] rounded-md overflow-hidden">
-      <div className="p-4 border-b border-[#30363d]">
+    <div className="bg-[var(--background)] border border-[#30363d] rounded-md">
+      <div className="p-4">
         <div className="flex justify-between">
           <h3 className="text-lg font-semibold text-[#58a6ff] mb-2">{note.title}</h3>
           <MenuActions
@@ -111,6 +111,7 @@ function NoteCard({
                 </div>
                 <SyntaxHighlighter
                   language={snippet.language}
+                  showLineNumbers={true}
                   style={vscDarkPlus}
                   customStyle={{
                     margin: 0,

@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Category } from '@/lib/types'
 import * as categoryService from '@/services/categoryService'
 import { getDecodeToken } from '@/lib/clientAuth'
+import { toast } from 'sonner'
 
 type NewCategory = { name: string; description: string }
 
@@ -27,6 +28,13 @@ export function useCategories() {
       // Invalidate cache pour refetch automatique
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
     },
+    onError: (error: any) => {
+      toast.error("Échec de la création de la catégorie", {
+        description:
+          error?.response?.data?.message ??
+          "Une erreur est survenue lors de la création. Veuillez réessayer.",
+      });
+    },
   })
 
   const updateMutation = useMutation({
@@ -35,12 +43,26 @@ export function useCategories() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
     },
+    onError: (error: any) => {
+      toast.error("Échec de la mise à jour de la catégorie", {
+        description:
+          error?.response?.data?.message ??
+          "Impossible de mettre à jour cette catégorie.",
+      });
+    },
   })
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => categoryService.deleteCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories', userId] })
+    },
+    onError: (error: any) => {
+      toast.error("Échec de la suppression de la catégorie", {
+        description:
+          error?.response?.data?.message ??
+          "Impossible de supprimer cette catégorie.",
+      });
     },
   })
 
@@ -52,7 +74,12 @@ export function useCategories() {
 
   // --- Actions ---
   const createCategory = async () => {
-    if (!newCategory.name) return
+    if (!newCategory.name) {
+      toast.error("Veuillez remplir tous les champs", {
+        description: "Indiquez un nom pour cette catégorie.",
+      });
+      return;
+    }
     await createMutation.mutateAsync(newCategory)
     setNewCategory({ name: '', description: '' })
   }

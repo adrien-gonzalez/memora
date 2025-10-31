@@ -13,10 +13,11 @@ export async function POST(req: NextRequest) {
   }
 
   const user = await prisma.user.findUnique({ where: { email } })
-  if (!user) return NextResponse.json({  success: false, error: 'Utilisateur introuvable' })
+  if (!user) 
+    return NextResponse.json({  success: false, error: 'Identifiants invalides. Veuillez vérifier vos informations de connexion.' })
 
   const valid = await bcrypt.compare(password, user.password)
-  if (!valid) return NextResponse.json({  success: false, error: 'Mot de passe incorrect' })
+  if (!valid) return NextResponse.json({  success: false, error: 'Identifiants invalides. Veuillez vérifier vos informations de connexion.' })
 
   const token = jwt.sign({ id: user.id, email: user.email }, SECRET, { expiresIn: '7d' })
 

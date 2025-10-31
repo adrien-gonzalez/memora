@@ -54,6 +54,7 @@ function NoteEditCard({
             className="w-full px-2 py-1 bg-[var(--background)] border border-[#30363d] rounded text-sm"
             placeholder="Description (optionnel)"
           />
+
           <select
             value={editingNoteSubcategoryId}
             onChange={e => setEditingNoteSubcategoryId(e.target.value)}

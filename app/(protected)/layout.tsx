@@ -46,7 +46,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center text-gray-400">
+      <div className="mt-[25vh] flex h-100 items-center justify-center text-gray-400">
         Vérification de la session...
       </div>
     )
