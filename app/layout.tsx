@@ -5,7 +5,7 @@ import Provider from "@/components/Provider";
 import { ToastProvider } from "@/providers/ToastProvider";
 
 export const metadata = {
-  title: "Pense-bêtes",
+  title: "Nexmemo",
   description: "Gestion de pense-bêtes hiérarchiques",
 };
 

@@ -43,7 +43,7 @@ export default function Header({
       <div className="w-full max-w-7xl mx-auto flex flex-wrap items-center justify-between">
         {/* Titre */}
         <div className='flex gap-4 items-center'>
-          <div className='logo w-[75px] h-[65px]'></div>
+          <div className='logo w-[55px] h-[45px]'></div>
           <h1 className="text-xl font-semibold w-full sm:w-auto">Penses-Bêtes</h1>
         </div>
         
