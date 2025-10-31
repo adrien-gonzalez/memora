@@ -21,3 +21,9 @@ export async function loginUser(email: string, password: string) {
     body: JSON.stringify({ email, password }),
   })
 }
+
+export async function deleteAccount() {
+  return fetchWithAuth('/api/auth/deleteUser', {
+    method: 'DELETE',
+  })
+}
