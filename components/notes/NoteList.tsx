@@ -18,6 +18,7 @@ import { useState, useMemo } from 'react'
 import SortableNote from './SortableNote'
 import { Note, Category } from '@/lib/types'
 import { useNotes } from '@/hooks/useNotes'
+import LoadingSpinner from '../ui/LoadingSpinner'
 
 type NoteListProps = {
   notes: Note[]
@@ -55,6 +56,7 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     copiedSnippetId,
     copyToClipboard,
     saveNoteOrder,
+    isLoading: isLoadingNotes
   } = useNotes()
 
   const notesArray = Array.isArray(notes) ? notes : []
@@ -99,11 +101,19 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     setActiveRect(null)
   }
 
+   if (isLoadingNotes) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <LoadingSpinner color="white" text="Chargement des notes..." />
+      </div>
+    )
+  }
+
   // --- RENDER ---
   if (notes.length === 0) {
     return (
       <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-8 text-center">
-        <p className="text-[#7d8590]">Aucun pense-bête pour le moment</p>
+        <p className="text-[#7d8590]">Aucune note pour le moment</p>
       </div>
     )
   }

@@ -44,7 +44,7 @@ export default function Header({
         {/* Titre */}
         <div className='flex gap-4 items-center'>
           <div className='logo w-[55px] h-[45px]'></div>
-          <h1 className="text-xl font-semibold w-full sm:w-auto">Penses-Bêtes</h1>
+          <h1 className="text-xl font-semibold w-full sm:w-auto">Nexmemo</h1>
         </div>
         
         {/* Boutons Ajouter */}
@@ -70,7 +70,7 @@ export default function Header({
             className="w-full sm:w-auto cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[#e6edf3] hover:bg-[#d0d7de] text-[#0d1117] rounded-md text-sm font-medium transition-colors"
           >
             <span className="text-lg">+</span>
-            <span>Pense-Bête</span>
+            <span>Note</span>
           </button>
         </div>
       </div>

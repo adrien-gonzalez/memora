@@ -51,7 +51,7 @@ export default function NoteForm({
 
   return (
     <div className="bg-[var(--background)] border border-[#30363d] rounded-md p-6">
-      <h2 className="text-xl font-semibold mb-4">Nouveau Pense-Bête</h2>
+      <h2 className="text-xl font-semibold mb-4">Nouvelle note</h2>
       
       <select 
         value={note.subcategoryId}

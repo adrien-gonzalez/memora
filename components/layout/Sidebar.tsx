@@ -85,14 +85,14 @@ export default function Sidebar({
               : 'hover:bg-[var(--hover)]'
           }`}
         >
-          Tous les penses-bêtes
+          Toutes les notes
         </button>
 
 
         {/* AFFICHAGE DU SPINNER LORS DU CHARGEMENT */}
         {isLoading ? (
           <div className="flex justify-center py-6">
-            <LoadingSpinner text="Chargement..." color="text-[#7d8590]" />
+            <LoadingSpinner color="white" text="Chargement..."/>
           </div>
         ) : (
           <div className="space-y-2 mt-2">

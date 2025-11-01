@@ -6,7 +6,7 @@ import { ToastProvider } from "@/providers/ToastProvider";
 
 export const metadata = {
   title: "Nexmemo",
-  description: "Gestion de pense-bêtes hiérarchiques",
+  description: "Gestion de notes hiérarchiques",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
