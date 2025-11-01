@@ -27,7 +27,9 @@ export default function Home() {
     setEditingCategoryDescription,
     createCategory,
     saveCategory,
-    deleteCategory
+    deleteCategory,
+    isCreating: isCreatingCategory,
+    isLoading: isLoadingCategory
   } = useCategories()
 
 
@@ -44,7 +46,9 @@ export default function Home() {
     setEditingSubcategoryCategoryId,
     createSubcategory,
     saveSubcategory,
-    deleteSubcategory
+    deleteSubcategory,
+    isCreating: isCreatingSubCategory,
+    isLoading: isLoadingSubCategory
   } = useSubcategories()
 
   const {
@@ -59,6 +63,7 @@ export default function Home() {
     updateSnippet,
     removeSnippet,
     initNewNote,
+    isCreating: isCreatingNote
   } = useNotes()
 
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | undefined>(undefined)
@@ -79,6 +84,8 @@ export default function Home() {
       <div className="w-full md:max-w-7xl mx-auto pt-6 flex flex-col md:flex-row gap-6">
         <Sidebar
           categories={categories}
+          isLoadingCategory={isLoadingCategory}
+          isLoadingSubCategory={isLoadingSubCategory}
           selectedSubcategory={selectedSubcategory ?? null}
           editingCategoryId={editingCategoryId}
           editingCategoryName={editingCategoryName}
@@ -136,6 +143,7 @@ export default function Home() {
               updateSnippet={updateSnippet}
               removeSnippet={removeSnippet}
               onCancel={() => setView('notes')}
+              isCreating={isCreatingNote}
             />
           )}
 
@@ -145,6 +153,7 @@ export default function Home() {
               setCategory={setNewCategory}
               createCategory={createCategory}
               onCancel={() => setView('notes')}
+              isCreating={isCreatingCategory}
             />
           )}
 
@@ -155,6 +164,7 @@ export default function Home() {
               setSubcategory={setNewSubcategory}
               createSubcategory={createSubcategory}
               onCancel={() => setView('notes')}
+              isCreating={isCreatingSubCategory}
             />
           )}
         </main>

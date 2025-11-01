@@ -2,6 +2,7 @@ import { Category } from "@/lib/types";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import Input from "../ui/Input";
 import Textarea from "../ui/Textarea";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 type SubcategoryFormProps = {
   categories: Category[]
@@ -9,6 +10,7 @@ type SubcategoryFormProps = {
   setSubcategory: Dispatch<SetStateAction<{ name: string; description: string; categoryId: string }>>
   createSubcategory: () => void
   onCancel: () => void
+  isCreating?: boolean
 }
 
 export default function SubcategoryForm({
@@ -16,7 +18,8 @@ export default function SubcategoryForm({
   subcategory,
   setSubcategory,
   createSubcategory,
-  onCancel
+  onCancel,
+  isCreating
 }: SubcategoryFormProps) {
 
   useEffect(() => {
@@ -54,7 +57,17 @@ export default function SubcategoryForm({
       />
 
       <div className="flex gap-2">
-        <button onClick={createSubcategory} className="text-black cursor-pointer px-4 py-2 bg-[#e6edf3] rounded-md hover:bg-[#d0d7de]">Créer</button>
+         <button
+            onClick={createSubcategory}
+            disabled={isCreating}
+            className={`cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-black ${
+              isCreating
+                ? 'bg-[#d0d7de] opacity-75 cursor-not-allowed'
+                : 'bg-[#e6edf3] hover:bg-[#d0d7de]'
+            }`}
+          >
+            {isCreating ? <LoadingSpinner text="Création..." /> : 'Créer'}
+          </button>
         <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[var(--button)] rounded-md">Annuler</button>
       </div>
     </div>

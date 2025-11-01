@@ -2,9 +2,10 @@
 'use client'
 
 import { Category, Snippet } from '@/lib/types'
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import Input from '../ui/Input'
 import Textarea from '../ui/Textarea'
+import LoadingSpinner from '../ui/LoadingSpinner'
 
 type NoteFormProps = {
   categories: Category[]
@@ -26,6 +27,7 @@ type NoteFormProps = {
   updateSnippet: (index: number, field: 'code' | 'language', value: string) => void
   removeSnippet: (index: number) => void
   onCancel: () => void
+  isCreating?: boolean
 }
 
 export default function NoteForm({
@@ -38,8 +40,9 @@ export default function NoteForm({
   updateSnippet,
   removeSnippet,
   onCancel,
+  isCreating
 }: NoteFormProps) {
-
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if(selectedSubcategory)
@@ -124,10 +127,17 @@ export default function NoteForm({
           </div>
         ))}
       </div>
-
       <div className="flex gap-2">
-        <button onClick={createNote} className="hover:bg-[#d0d7de] cursor-pointer px-4 py-2 bg-[#e6edf3] rounded-md text-black">
-          Créer
+        <button
+          onClick={createNote}
+          disabled={isCreating}
+          className={`cursor-pointer flex items-center justify-center px-4 py-2 rounded-md text-black ${
+            isCreating
+              ? 'bg-[#d0d7de] opacity-75 cursor-not-allowed'
+              : 'bg-[#e6edf3] hover:bg-[#d0d7de]'
+          }`}
+        >
+          {isCreating ? <LoadingSpinner text="Création..." /> : 'Créer'}
         </button>
         <button onClick={onCancel} className="cursor-pointer px-4 py-2 bg-[var(--button)] rounded-md">
           Annuler

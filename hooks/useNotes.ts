@@ -155,16 +155,20 @@ export function useNotes(selectedSubcategory?: string) {
 
   // --- Réordonner les notes ---
   const saveNoteOrder = async (orderedNotes: Note[]) => {
-    queryClient.setQueryData<Note[]>(['notes', selectedSubcategory || 'all'], orderedNotes)
+    const queryKey = ['notes', selectedSubcategory || 'all', userId]
+    const previousNotes = queryClient.getQueryData<Note[]>(queryKey)
+    queryClient.setQueryData(queryKey, orderedNotes)
 
-    await Promise.all(
-      orderedNotes.map((note, idx) =>
-        noteService.updateNoteOrder(note.id, { order: idx }) // API spéciale pour ordre
+    try {
+      await noteService.updateNotesOrder(
+        orderedNotes.map((note, idx) => ({ id: note.id, order: idx }))
       )
-    )
-
-    queryClient.invalidateQueries({ queryKey: ['notes', selectedSubcategory || 'all', userId] })
+    } catch (error) {
+      console.error('Erreur lors du réordonnancement :', error)
+      queryClient.setQueryData(queryKey, previousNotes)
+    }
   }
+
 
   return {
     notes,
@@ -199,5 +203,6 @@ export function useNotes(selectedSubcategory?: string) {
     removeEditingSnippet,
     copyToClipboard,
     initNewNote,
+    isCreating: createMutation.isPending,
   }
 }

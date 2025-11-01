@@ -89,6 +89,8 @@ export default function NoteList({ notes, categories }: NoteListProps) {
     const [movedNote] = newNotes.splice(oldIndex, 1)
     newNotes.splice(newIndex, 0, movedNote)
 
+    console.log(newNotes)
+
     saveNoteOrder(newNotes)
   }
 

@@ -119,5 +119,6 @@ export function useSubcategories() {
     createSubcategory,
     saveSubcategory,
     deleteSubcategory,
+    isCreating: createMutation.isPending,
   }
 }

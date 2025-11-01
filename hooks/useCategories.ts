@@ -112,5 +112,6 @@ export function useCategories() {
     createCategory,
     saveCategory,
     deleteCategory,
+    isCreating: createMutation.isPending,
   }
 }

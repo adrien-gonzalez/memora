@@ -22,11 +22,12 @@ export async function updateNote(id: string, note: any): Promise<Note> {
   })
 }
 
-export async function updateNoteOrder(id: string, data: UpdateNoteOrderData): Promise<Note> {
-  return fetchWithAuth(`/api/notes/${id}`, {
-    method: 'PUT',
+// noteService.ts
+export const updateNotesOrder = (notes: { id: string; order: number }[]) => {
+  return fetchWithAuth('/api/notes', {
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ notes }),
   })
 }
 
